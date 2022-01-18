@@ -109,3 +109,69 @@
     )
   )
 )
+
+; 11 - remove -- predicate-based removal
+
+(define (remove f lista)
+  (if (null? lista) ()
+    (if (f (car lista))
+      (remove f (cdr lista))
+      (cons (car lista) (remove f (cdr lista)))
+    )
+  )
+)
+
+; 12 - serie -- serie da 1 a n
+
+(define (serie n)
+  (if (= n 0) ()
+    (append (serie (- n 1)) (list n))
+  )
+)
+
+; 13 - minimo -- minimum across list
+
+(define (minimo lista)
+  (if (null? (cdr lista)) (car lista)
+    (if (<= (car lista) (minimo (cdr lista)))
+      (car lista)
+      (minimo (cdr lista))
+    )
+  )
+)
+
+; 14 - apply -- applies a function to an expression
+
+(define (apply f lista)
+  (f (eval lista))
+)
+
+; 15 - prefix? -- L1 is a prefix of L2
+
+(define (prefix? L1 L2)
+  (if (null? L1)
+    #t
+    (if (null? L2)
+      #f
+      (and (equal? (car L1) (car L2)) (prefix? (cdr L1) (cdr L2)))
+    )
+  )
+)
+
+; 16 - appartiene -- x \in set
+
+(define (appartiene x set)
+  (if (null? set) #f
+    (if (equal? (car set) x) #t
+      (appartiene x (cdr set))
+    )
+  )
+)
+(define (intersezione set1 set2)
+  (if (null? set1) ()
+    (if (appartiene (car set1) set2)
+      (cons (car set1) (intersezione (cdr set1) set2))
+      (intersezione (cdr set1) set2)
+    )
+  )
+)
