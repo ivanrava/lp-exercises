@@ -69,3 +69,26 @@ type Orario = (Corso, Giorno, Ora, Ora, Aula)
 auleOccupate :: [Orario] -> Giorno -> Ora -> [Aula]
 auleOccupate orari giorno ora = [ aula | (_, g, o1, o2, aula) <- orari, g == giorno, o1 <= ora, ora <= o2]
 
+-- 9 - computa
+
+computa :: (Integer -> Integer) -> (Integer -> Integer) -> [Integer] -> [Integer]
+computa f g [] = []
+computa f g (h:tail) = (f h + g h):(computa f g tail)
+
+-- 10 - last
+
+last :: [a] -> a
+last (testa:[]) = testa
+last (_:coda) = last coda
+
+-- 11 - shrink
+
+shrink :: [a] -> [a]
+shrink [] = []
+shrink [x] = [x]
+shrink (testa:(testa2:coda2)) = testa:(shrink coda2)
+
+-- 12 - campionato
+
+campionato :: [String] -> [(String, String)]
+campionato squadre = [ (s1,s2) | s1 <- squadre, s2 <- squadre, s1 /= s2 ]
