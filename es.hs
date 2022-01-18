@@ -47,3 +47,25 @@ type Docente = (Nome, Corso)
 docenti_dello_studente :: [Studente] -> [Docente] -> Matricola -> [Nome]
 -- join e matricola
 docenti_dello_studente stud doc mat = [ n | (n, c_d) <- doc, (m, a, c_s) <- stud, c_d == c_s, m == mat ]
+
+-- 5 - Esami
+
+type Matricola = String
+type Corso = String
+type Voto = Int
+type Esame = (Matricola, Corso, Voto)
+
+esamiSostenuti :: [Esame] -> Matricola -> [Corso]
+esamiSostenuti esami mat = [ c | (m,c,v) <- esami, m == mat ]
+
+-- 6 - Orari
+
+type Corso = String
+type Giorno = Integer
+type Ora = Int
+type Aula = String
+type Orario = (Corso, Giorno, Ora, Ora, Aula)
+
+auleOccupate :: [Orario] -> Giorno -> Ora -> [Aula]
+auleOccupate orari giorno ora = [ aula | (_, g, o1, o2, aula) <- orari, g == giorno, o1 <= ora, ora <= o2]
+
