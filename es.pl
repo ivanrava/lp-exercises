@@ -81,3 +81,52 @@ raggiungibile(Finale) :- iniziale(Iniziale), cammino(Iniziale, Finale). % se esi
 % predicato ausiliario: cammino
 cammino(Iniziale, Finale) :- arco(Iniziale, Finale).
 cammino(Iniziale, Finale) :- arco(Iniziale, X), cammino(X, Finale).
+
+% 13
+
+semisomma([], 0).
+semisomma([N], N). % necessario perché accediamo ai primi 2 elementi
+semisomma([H,_|T], S) :- semisomma(T, S1), S is S1 + H.
+
+% 14
+
+parola([],0,N,N).
+parola([H|T],L,N1,N2) :- L > 0, archi(Archi), member(arco(N1,H,Intermedio), Archi), parola(T,L1,Intermedio,N2), L1 is L-1.
+
+% 15
+
+scatola(P1, P2, P3, P4, P5) :-
+  Scaffali = [scaffale(P5,5), scaffale(P4,4), scaffale(P3,3), scaffale(P2,2), scaffale(P1,1)],
+  member(scaffale(rossa, R), Scaffali), R \= 3,
+  member(scaffale(verde, V), Scaffali), V \= 3,
+  member(scaffale(blu, B), Scaffali), B \= 1, B \= 5,
+  B is R+1,
+  V is B+1,
+  member(scaffale(giallo, G), Scaffali), G < B,
+  member(scaffale(azzurra, A), Scaffali), A is V+1.
+
+% 16
+
+cugini(X,Y) :- famiglia(_,_,F), famiglia(P1,M1,F1), famiglia(P2,M2,F2), member(M1,F), member(M2,F), member(X,F1), member(Y,F2), P1 \= P2.
+
+% 17
+
+riconosce(A,P) :- automa(A,I,F,T), genera(P,I,F,T).
+genera([],S,F,_) :- member(S,F).
+genera([H|T],S,F,Trans) :- member(tr(S,H,Succ), Trans), genera(T,Succ,F,Trans).
+
+% 18
+
+percorso(C1,D12,C2) :- link(C1,L,C2), L =< D12.
+percorso(C1,D12,C2) :- link(C1,L,Intermedio), Remaining is D12 - L, Remaining > 0, percorso(Intermedio,Remaining,C2).
+% is va prima della chiamata ricorsiva a percorso, altrimenti il =< usa operandi non istanziati
+
+% 19
+
+deriva([],[]). % identità
+deriva([H|TS],[H|TF]) :- deriva(TS,TF).
+
+deriva([H|T],Frase) :- nonterminali(Nonterm), member(H, Nonterm), produzione(H, R),
+                        append(R, T, Forma), deriva(Forma, Frase).
+
+corretta(Frase) :- deriva([H], Frase), assioma(H).
