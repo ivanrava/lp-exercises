@@ -175,3 +175,125 @@
     )
   )
 )
+
+; 17 - manca -- x not in L
+
+(define (manca x L)
+  (if (null? L) #t
+    (if (equal? x (car L))
+      #f
+      (manca x (cdr L))
+    )
+  )
+)
+(define (unione L1 L2)
+  (if (null? L1)
+    L2
+    (if (manca (car L1) L2)
+      (unione (cdr L1) L2)
+      (cons (car L1) (unione (cdr L1) L2))
+    )
+  )
+)
+
+; 18 - take
+
+(define (take n lista)
+  (if (or (equal? n 0) (null? lista)) ()
+    (cons (car lista) (take (- n 1) (cdr lista)))
+  )
+)
+
+; 19 - domino
+
+(define (domino lista)
+  (if (or (null? lista) (equal? (length lista) 1))
+    #t
+    (if (equal? (cadar lista) (caadr lista))
+      (domino (cdr lista))
+      #f
+    )
+  )
+)
+
+; 20 - sublist?
+
+(define (sublist? S L)
+  (if (> (length S) (length L)) #f
+    (if (prefix? S L)
+      #t
+      (sublist? S (cdr L))
+    )
+  )
+)
+
+; 21 - indexing
+
+(define (indexing A key)
+  (if (null? A) 'error
+    (if (equal? (caar A) key)
+      (cadar A)
+      (indexing (cdr A) key)
+    )
+  )
+)
+
+; 22 - duplica
+
+(define (duplica lista)
+  (if (null? lista) ()
+    (cons (list (car lista) (car lista)) (duplica (cdr lista)))
+  )
+)
+
+; 23 - listafib
+
+(define (fib n)
+  (if (= n 0) 0
+    (if (= n 1) 1
+      (+ (fib (- n 1)) (fib (- n 2)))
+    )
+  )
+)
+(define (listafib n)
+  (if (< n 0) ()
+    (append (listafib (- n 1) list(fib n)))
+  )
+)
+
+; 24 - iniziale
+
+(define (iniziale lista)
+  (if (<= (length lista) 1) ()
+    (cons (car lista) (iniziale (cdr lista)))
+  )
+)
+
+; 25 - inserisci
+
+(define (inserisci n lista)
+  (if (null? lista) (list n)
+    (if (< (car lista) n)
+      (cons (car lista) (inserisci n (cdr lista))) ; prosegui
+      (cons n lista) ; inserisci
+    )
+  )
+)
+(define (ordina lista)
+  (if (null? lista) ()
+    (inserisci (car lista) (ordina (cdr lista)))
+  )
+)
+
+; 26 - fattoriali
+
+(define (fact n)
+  (if (= n 0) 1
+    (* n (fact (- n 1)))
+  )
+)
+(define (fattoriali n)
+  (if (= n 0) '(1)
+    (append (fattoriali (- n 1)) (list (fact n)))
+  )
+)
