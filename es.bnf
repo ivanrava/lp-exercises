@@ -1,0 +1,14 @@
+# 6
+
+program ::= trigger-list
+trigger-list ::= trigger trigger-list | trigger
+trigger ::= 'define trigger' ID event-sec condition-sec action-sec 'end' ID.
+event-sec ::= 'event' id-list
+id-list ::= ID, id-list | ID
+condition-sec ::= 'condition' expr-list | ''
+expr-list ::= expr, expr-list | expr
+expr ::= ID op ID
+op ::= '=' | '!=' | '>' | '<' | '>=' | '<='
+action-sec ::= 'action' action-list
+action-list ::= action, action-list | action
+action ::= ID'('id-list')'
