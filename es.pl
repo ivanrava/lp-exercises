@@ -130,3 +130,14 @@ deriva([H|T],Frase) :- nonterminali(Nonterm), member(H, Nonterm), produzione(H, 
                         append(R, T, Forma), deriva(Forma, Frase).
 
 corretta(Frase) :- deriva([H], Frase), assioma(H).
+
+% 20
+
+stessa_generazione(X,Y) :- generazione(X,G), generazione(Y,G), X \= Y.
+generazione(X,0) :- capostipite(X).
+generazione(X,G) :- member(X,L), genitore(Padre,L), generazione(Padre,G0), G is G0+1
+
+% 21
+
+path(A,A,[A]).
+path(N1,N2,[N1|P]) :- arco(N1,S), path(S,N2,P).

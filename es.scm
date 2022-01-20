@@ -297,3 +297,41 @@
     (append (fattoriali (- n 1)) (list (fact n)))
   )
 )
+
+; 27 - revatoms
+
+(define (revatoms L)
+  (if (null? L) ()
+    (if (atom? (car L))
+      (append (revatoms (cdr L)) (list (car L)))
+      (revatoms (cdr L))
+    )
+  )
+)
+
+; 28 - media
+
+(define (media lista)
+  (/ (sommatoria lista) (length lista))
+)
+(define (sommatoria lista)
+  (if (null? lista) 0
+    (+ (car lista) (sommatoria (cdr lista)))
+  )
+)
+
+; 29 - itera
+
+(define (itera f x n)
+  (if (= n 0) (list x)
+    (append (itera f (f x) (- n 1)) (list x))
+  )
+)
+
+; 30 - valori
+
+(define (valori n f)
+  (if (= n 0) (list (f 0))
+    (append (valori (- n 1) f) (list (f n)))
+  )
+)
