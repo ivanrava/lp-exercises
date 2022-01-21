@@ -141,3 +141,49 @@ generazione(X,G) :- member(X,L), genitore(Padre,L), generazione(Padre,G0), G is 
 
 path(A,A,[A]).
 path(N1,N2,[N1|P]) :- arco(N1,S), path(S,N2,P).
+
+% 22
+
+percorso(Piazza) :- strade(L), copre(Piazza, L).
+
+copre(_, []).
+copre(Piazza, Strade) :- member(strada(Piazza,Succ), Strade), rimuovi(Strade, strada(Piazza,Succ), Rimanenti), copre(Succ, Rimanenti).
+
+rimuovi([H|T], H, T) :- !.
+rimuovi([H|T], G, [H|Tn]) :- rimuovi(T, G, Tn).
+
+% 23
+
+ordinata(X) :- var(X), !.
+ordinata([]) :- !.
+ordinata([_]) :- !.
+ordinata([N1,N2|T]) :- N1 =< N2, ordinata([N2|T]).
+
+ins(N,L1,L2) :- ordinata(L1), ordinata(L2), inserisci(N,L1,L2).
+
+inserisci(N,[],[N]) :- !.
+inserisci(N,[H|T],[N,H|T]) :- N =< H, !.
+inserisci(N,[H|T],[H|Tn]) :- inserisci(N,T,Tn).
+
+% 24
+
+foglie([]).
+foglie([H|T]) :- arco(_,H), \+(arco(H,_)), foglie(T).
+
+% 25
+
+% N = [-3,4,0,2,-1]
+% P = [4,2,-2]
+positivi([],[]).
+positivi([H|Tn],[H|Tp]) :- H > 0, positivi(Tn,Tp).
+positivi([H|Tn],Pos) :- H =< 0, positivi(Tn,Pos).
+
+% 26
+
+media(L,M) :- sum(L,S), length(L,Len), M is S / Len.
+
+sum([],0).
+sum([H|T],S) :- sum(T,Sn), S is H + Sn.
+
+length([],0).
+length([H|T],Len) :- length(T,Slen), Len is Slen + 1.
