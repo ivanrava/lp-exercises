@@ -187,3 +187,24 @@ sum([H|T],S) :- sum(T,Sn), S is H + Sn.
 
 length([],0).
 length([H|T],Len) :- length(T,Slen), Len is Slen + 1.
+
+% esame boh
+
+mu(I,V) :- sostituzione(Stato), member(valore(I,V), Stato).
+mu(I,V) :- sostituzione(Stato), \+(member(valore(I,V), Stato)), V=I.
+
+computa([],0).
+computa([H],V) :- mu(H,V).
+computa([H,+],V) :- mu(H,V).
+computa([H,-],V) :- mu(H,V).
+computa([H,+|T],V) :- computa(T,Res), mu(H,Val), V is Val+Res.
+computa([H,-|T],V) :- computa(T,Res), mu(H,Val), V is Val-Res.
+
+% altro esame boh
+
+pn(N) :- X is N mod 2, X == 0.
+
+pari([], []).
+pari([H|T1], [H|T2]) :- pn(H), pari(T1,T2).
+pari([H|T1], P) :- \+(pn(H)), pari(T1,P).
+
