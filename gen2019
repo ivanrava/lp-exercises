@@ -1,0 +1,40 @@
+alfanum -> [a-zA-Z0-9]
+identifier -> alfa alfanum alfanum? alfanum? alfa
+comment -> #(~\n)+\n
+
+---
+
+---
+
+st = schema(T)
+sq = schema(Q)
+
+if st != sq
+  errore()
+
+var R: schema(T) // R = []
+foreach row in T
+  if p(row) and row not in Q
+    append(row,r)
+
+---
+
+(define (sommadis lista)
+  (if (null? lista) 0
+    (if (null? (cdr lista)) lista
+      (+ (car lista) (sommadis (cddr lista)))
+    )
+  )
+)
+
+---
+
+inverso :: Albero -> Albero
+inverso (Nodo parola alberi) = Nodo (reverse parola) [ inverso frassino | frassino <- alberi ]
+
+---
+
+sumsquares([]).
+sumsquares([_]).
+sumsquares([_,_]).
+sumsquares(H1,H2,H3|T) :- H3 is H1*H1 + H2*H2, sumsquares(H2,H3|T).

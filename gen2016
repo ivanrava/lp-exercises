@@ -1,0 +1,43 @@
+(z[zx]*)? y ([xz]+ y [xz]*)+
+
+---
+
+int = []
+foreach row_s in S
+  foreach row_r in R
+    if p(row_r||row_s)
+      append(int, row_r||row_s)
+
+result = []
+foreach row in int
+  foreach row_t in T
+    apppend(result, row||row_t)
+
+---
+
+M_stat(do-stat,s) = M_do(do-stat,s)
+M_do(do stat while expr,s) = if M_expr(expr) == ERRORE or M_stat(stat,s) == ERRORE ERRORE elsif M_expr(expr) = FALSE M_stat(stat,s) else M_do(do stat while expr,M_stat(stat,s))
+
+---
+
+(define (fun n f g)
+  (if (= n 0) ()
+    (append (fun (- n 1) f g) (list (+ (g (+ n 1)) (f (g n)))))
+  )
+)
+
+---
+
+valore :: Stato -> Expr -> Int
+valore _ (Const n) = n
+valore s (Indexing nome expr) = (cerca nome s) !! (valore s expr)
+valore s (Plus expr1 expr2) = (valore expr1 s) + (valore expr2 s)
+
+---
+
+[1,2,3] !! 0 = 1
+
+incremento(_, [], []).
+incremento(N,[H|T],[H|T2]) :- H \= N, incremento(N,T,T2).
+incremento(N,[H|T],[H2|T2]) :- H = N, H2 is H+1, incremento(N,T,T2).
+

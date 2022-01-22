@@ -1,0 +1,43 @@
+nome -> [A-Z][a-z]+
+cognome -> nome
+data -> giorno-mese-anno
+giorno -> 0[1-9]|[12][0-9]|3[01]
+mese -> 0[1-9]|1[012]
+anno -> [0-9][0-9]
+matricola -> [0-9][0-9][0-9][0-9]([0-9])?
+blank -> " "
+newline -> "\n"
+tabella -> (riga newline)* riga
+riga -> (nome blank)+ (cognome blank)+ data blank matricola
+
+---
+
+M_seq([booleans]) = M_bs(booleans)
+M_bs(boolconst) = M_b(boolconst)
+M_bs(boolconst, booleans) = if M_b(boolconst) = TRUE TRUE else M_bs(booleans)
+
+---
+
+(define (applicazioni n f)
+  (if (= n 0) ()
+    (append (applicazioni (- n 1) f) (list (f n)))
+  )
+)
+
+---
+
+type Matrice = [[Int]]
+
+(+++) :: Matrice -> Matrice -> Matrice
+m1 +++ m2 = map (map (somma)) ([ row | row <- [ (zip r1 r2) | (r1,r2) <- (zip m1 m2) ] ])
+
+somma :: (Int,Int) -> Int
+somma (x,y) = x+y
+
+[[(),()], [(), ()], ...]
+
+(+++) :: Matrice -> Matrice -> Matrice
+m1 +++ m2 = [[ v1+v2 | (r1,r2) <- (zip m1 m2), (v1,v2) <- (zip r1 r2) ]]
+
+(+++) :: Matrice -> Matrice -> Matrice
+m1 +++ m2 = [[ riga | riga <- [ (zip r1 r2) | (r1,r2) <- (zip m1 m2) ] ]]

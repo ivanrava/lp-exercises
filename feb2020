@@ -1,0 +1,91 @@
+{a,b,c}
+
+b
+a
+abababa
+aaaaaab
+abcbcaa (NO)
+
+term -> a|b|c|ab|bc|cc|bb|cb|ba
+[abc]*term
+
+---
+
+program -> expr
+expr -> (expr) | expr op expr | id | intconst
+op -> +|-|*|/
+
+---
+
+sa = schema(A)
+sb = schema(B)
+
+if ('x',_) not in sa
+  errore('x non è un attributo dello schema di A')
+if ('y',_) not in sb
+  errore('y non in B')
+if ('v',_) not in sa
+  errore('v non in A')
+if ('w',_) not in sb
+  errore('w non in B')
+
+var sT: sa || sb
+
+foreach rowa in A
+  foreach rowb in B
+    if rowa.x == rowb.y
+      if rowa.v == rowb.w
+        append(rowa||rowb, sT)
+      end-if
+    end-if
+  end-for
+end-for
+
+--
+
+M_stat-list (stat,s) = M_stat (stat,s)
+M_stat-list (stat stat-list,s) =
+if M_stat (stat,s) == ERROR
+  ERROR
+else
+  M_stat-list(stat-list,M_stat(stat,s))
+
+M_stat (id1 = id2,s) =
+if not Visible(id1,s) or not Visible(id2,s) or Value(id2,s) == UNDEFINED
+  ERROR
+else
+  Assign(id1,id2,s)
+
+--
+
+(define (blend L1 L2)
+  (if (null? L1) L2
+    (if (null? L2) L1
+      (append (list (car L1) (car L2)) (blend (cdr L1) (cdr L2)))
+    )
+  )
+)
+
+--
+
+mystery :: [a] -> (a -> a -> Bool) -> [(a,a)]
+mystery lista f = [ (x,y) | x <- lista, y <- lista, f x y ]
+
+--
+
+blended([],Y,Y).
+blended(X,[],X).
+blended([H1|T1],[H2|T2],[H1,H2|T]) :- blended(T1,T2,T).
+
+--
+
+a(~[bcd])*=a(~(b|c|d))*= a(a)* = a+
+L+
+
+i++ == i (vera) 10 == 10
+i = 11
+
+11 == 11 (vera)
+12
+
+?- \+(X=1).

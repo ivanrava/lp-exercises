@@ -1,0 +1,76 @@
+[xay]*(((~a)[xay])*)?y
+
+axxyyyxyxyxyxyay
+xxaxaxxxxxxxxxxy
+
+y | [xy]* a? [xy]+ a? [xy]* y
+
+---
+
+program -> stat-list | €
+stat-list -> stat stat-list | stat
+stat -> id-list: type;
+id-list -> id, id-list | id
+type -> atom-list | record-def | vector-def | multiset-def
+atom-list -> integer | real | string
+record-def -> record (params-list)
+params-list -> param, params-list | param
+param -> id: type
+vector-def -> vector [integer] of type
+multiset-def -> multiset of boh
+boh -> multiset-def | atom-list
+
+---
+
+foreach row in X
+  if not p(X)
+    return false
+
+foreach row in Y
+  if q(Y)
+    return false
+
+return true
+
+---
+
+M_e(true) = TRUE
+M_e(false) = FALSE
+M_e(id) = val(id,s)
+M_e(not expr) = if M_e(expr) == ERRORE ERRORE else ! M_e(expr)
+M_e(expr xor expr) = if M_e(expr1) == errore or M_e(expr2) == errore then ERRORE else
+
+! M(1) && M(2) || M(1) && ! M(2)
+
+00|0
+01|1
+10|1
+11|0
+
+---
+
+(define (triple lista)
+  (if (< (length lista) 3) ()
+    (let ((
+      tripla (list (car lista) (cadr lista) (caddr lista))
+    ))
+      (cons tripla (triple (cdr lista)))
+    )
+  )
+)
+
+---
+
+riduzione :: Albero -> Albero
+riduzione (Nodo lista alb1 alb2) = Nodo (somma lista) (riduzione alb1) (riduzione alb2)
+
+somma :: [Int] -> Int
+somma lista = foldr + 0 lista
+somma [] = 0
+somma (t:c) = t + (somma c)
+
+---
+
+nonvuote([],[]).
+nonvuote([H|T1],[H|T2]) :- H \= [], nonvuote(T1,T2).
+nonvuote([H|T1],NV) :- H = [], nonvuote(T1,NV).

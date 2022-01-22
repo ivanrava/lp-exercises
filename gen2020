@@ -1,0 +1,80 @@
+---
+
+---
+
+program -> stat-list | €
+stat-list -> stat stat-list | stat
+stat -> type id-list';'
+id-list -> id, id-list | id
+atomic-list -> string | int | bool
+type -> atomic-list | array-def | set-def
+array-def -> 'array' [intconst] of array-list
+array-list -> atomic-list | array-def
+set-def -> 'set' of type
+
+---
+
+st = schema(T)
+if (a,_) not in st or (b,_) not in st or (c,_) not in st or (d,_) not in st
+  semerror('attributi non presenti')
+
+var R: st
+foreach row in T
+  if row.a == row.b
+    append(row, R)
+  elsif row.c == row.d
+    append(row, R)
+
+---
+
+M_e(true,s) = TRUE
+M_e(false,s) = FALSE
+M_e(id,s) = M_id(id,s) // sia il valore, che ERRORE
+M_e(e1 and e2,s) = if (M_e(e1,s) != ERRORE && M_e(e2,s) != ERRORE) M_e(e1,s) && M_e(e2,s) else ERRORE
+M_e(e1 or e2,s) = if (M_e(e1,s) != ERRORE && M_e(e2,s) != ERRORE) M_e(e1,s) || M_e(e2,s) else ERRORE
+
+M_stat(call,s) = M_call(call,s)
+M_stat(loop,s) = M_loop(loop,s)
+
+M_loop(do stat while expr,s) = if M_stat(stat,s) == ERRORE or M_e(expr,s) == ERRORE
+  ERRORE
+elsif M_e(expr,s)
+  M_loop(do stat while expr,M_stat(stat,s))
+else
+  M_stat(stat,s)
+
+---
+
+(define (vsum L1 L2)
+  (if (null? L1) ()
+    (if (null? L2) ()
+      (cons (+ (car L1) (car L2)) (vsum (cdr L1) (cdr L2)))
+    )
+  )
+)
+
+---
+
+class Conjunction a where
+  (&) :: a -> a -> a
+
+instance Conjunction Bool where
+  True & True = True
+  _    & _    = False
+
+instance Conjunction [Bool] where
+  [] & [] = []
+  _ & [] = []
+  [] & _ = []
+  (t1:c1) & (t2:c2) = (t1 & t2):(c1 & c2)
+
+  l1 & l2 = [ b1 & b2 | (b1,b2) <- (zip l1 l2) ]
+
+---
+
+selempty([],[]).
+selempty([HA|TA],[HA|TB]) :- HA = [], selempty(TA,TB).
+selempty([HA|TA],B) :- HA \= [], selempty(TA,B).
+
+---
+

@@ -1,0 +1,27 @@
+€|.|(3~3|2~2|1~1).*
+
+---
+
+M(exists [pred] id) = Exists(pred,value(id,s),s)
+
+Exists(pred,(testa:coda),s) = if predicate(pred,testa,s) = TRUE TRUE else Exists(pred,coda,s)
+
+---
+
+(define (stream f g n)
+  (if (= n 0) ()
+    (append (stream f g (- n 1)) (list (f (g n))))
+  )
+)
+
+---
+
+data BinTree = Leaf Int | Node BinTree Int BinTree
+
+mirror :: BinTree -> BinTree
+mirror (Leaf num) = Leaf num
+mirror (Node sx num dx) = Node (mirror dx) num (mirror sx)
+
+---
+
+f $! x

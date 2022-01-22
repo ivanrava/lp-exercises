@@ -1,0 +1,52 @@
+cifra -> [0-9]
+alfanum -> lettera|cifra
+id -> lettera alfanum alfanum? alfanum? cifra
+lettera -> [A-Za-z]
+numconst -> sign? int.dec
+sign -> +|-
+int -> 0|[1-9][0-9]*
+dec -> [0-9]*[1-9]
+comment -> -- (~\n)* \n
+
+---
+
+id-dec -> dotted-id
+dotted-id -> id.dotted-id | id
+
+---
+
+M_stat(assign-stat,s) = M_a(assign-stat,s)
+M_stat(if-stat,s) = M_i(if-stat,s)
+M_stat(while-stat,s) = M_w(while-stat,s)
+
+M_sl(stat1 stat-list stat2,s) = M_stat(stat2,M_sl(stat-list,M_stat(stat1,s)))
+M_sl(stat1 stat2,s) = M_stat(stat2,M_stat(stat1,s))
+
+---
+
+(define (comparse elemento lista)
+  (if (null? lista) 0
+    (if (equal? (car lista) elemento)
+      (+ 1 (comparse elemento (cdr lista)))
+      (if (list? (car lista))
+        (+ (comparse elemento (car lista)) (comparse elemento (cdr lista)))
+        (comparse elemento (cdr lista))
+      )
+    )
+  )
+)
+
+---
+
+sovrapposizione :: Figura -> Figura -> Figura
+sovrapposizione f1 f2 = map(map(pixelSum)) [ (zip r1 r2) | (r1,r2) <- (zip f1 f2) ]
+
+pixelSum :: (Char,Char) -> Char
+pixelSum ('.','.') = '.'
+pixelSum _ = '#'
+
+---
+
+penta([A,B,C,D,E]) :- A < B, B < C, C < D, D < E, Somma is A+B, Diff is E-D, Somma == Diff, Somma == C.
+penta([A,B,C,D,E|_]) :- penta([A,B,C,D,E]).
+penta([_,B,C,D,E|T]) :- penta([B,C,D,E|T]).

@@ -1,0 +1,44 @@
+[ab][abd]*c[abd]+c([abd]+c)?[abd]+
+
+---
+
+result = []
+foreach row in R
+  if p(row)
+    foreach row_s in S
+      insert(result,row||row_s)
+
+---
+
+(define (cascata lista n)
+  (if (null? lista) n
+    ((car lista) (cascata (cdr lista) n))
+  )
+)
+
+---
+
+data Tree = Node Int [Tree]
+
+minmax :: Tree -> (Int,Int)
+minmax albero = (minimum numeri, maximum numeri) where numeri = spiattella albero
+
+spiattella :: Tree -> [Int]
+spiattella (Node num alberi) = num:(concat [ spiattella albero | albero <- alberi])
+
+---
+
+% ultimo
+last([A],A).
+last([H|T],R) :- last(T,R).
+
+% esame vero e proprio :)
+fibs(N,L) :- fib(Last,N), last(L,Last).
+
+% funzione di fibonacci
+fib(0,0).
+fib(1,1).
+fib(R,N) :- N1 is N-1, N2 is N-2, fib(R1,N1), fib(R2,N2), R is R1+R2.
+
+---
+

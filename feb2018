@@ -1,0 +1,69 @@
+cifrapari -> [02468]
+numpari -> (nonzero [0-9]*)?cifrapari
+nonzero -> ~0
+
+---
+
+program -> stat-list
+stat-list -> stat stat-list | stat
+stat -> assign-stat | dec-stat
+assign-stat -> lhs = expr;
+dec-stat -> id-list: type;
+id-list -> id, id-list | id
+type -> int | matrix-def
+matrix-def -> matrix [int-list] of matrix-def | int
+int-list -> intconst, int-list | intconst
+lhs -> id | expr-index
+expr-index -> id index-list
+index-list -> [expr-list] index-list | [expr-list]
+expr-list -> expr, expr-list | expr
+expr -> expr-index | expr | (expr) | expr op expr
+op -> +|-|*|/
+
+---
+
+if schema(S) != schema(R)
+  return ERRORE
+
+foreach row_r in R
+  if p(row_r)
+    acc = []
+    foreach row_s in S
+      if q(row_s)
+        append(acc, row_s)
+    if acc = R
+      return true
+
+return false
+
+---
+
+M(empty id,s) = if val(id,s) == ERRORE ERRORE else length(val(id,s)) == 0
+M(l1 or l2) = if M(l2) == ERRORE ERRORE elsif M(l2) == true true else M(l1)
+
+---
+
+(define (bilancio? lista)
+  (let ((listar (reverse lista)))
+    (if (= (sommatoria (cdr listar)) (car listar))
+      #t
+      #f
+    )
+  )
+)
+
+(define (sommatoria lista)
+  (if (null? lista) 0
+    (+ (car lista) (sommatoria lista))
+  )
+)
+
+---
+
+match :: String -> Tree -> Bool
+match [] _ = False
+match [t1] (Node t2 []) = t1 == t2
+match (t1:coda) (Node t2 alberi) = t1 == t2 && ((length [ a | a <- alberi, match coda a ]) > 0)
+
+---
+
