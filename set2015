@@ -1,0 +1,27 @@
+--- scheme
+
+(define (somme n f g)
+  (if (= n 0) ()
+    (append (somme (- n 1) f g) (list (+ (f n) (g n))))
+  )
+)
+
+--- haskell
+
+class Times a where
+  (#) :: a -> Int -> a
+
+instance Times Int where
+  n # m = n * m
+
+instance Times [a] where
+  arr # 0 = ""
+  arr # n = arr ++ (arr # (n-1))
+
+--- prolog
+
+fun(0,1).
+fun(1,2).
+fun(2,3).
+fun(N,F) :- N1 is N-1, N2 is N-2, N3 is N-3, fun(N1,F1), fun(N2,F2), fun(N3,F3), F is F1+F2*F3.
+

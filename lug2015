@@ -1,0 +1,33 @@
+--- scheme
+
+(define (treccia A B)
+  (if (null? A) B
+    (if (null? B) A
+      (append (list (car A) (car B)) (treccia (cdr A) (cdr B)))
+    )
+  )
+)
+
+--- haskell
+
+type Nome = String
+type Amici = [Nome]
+type Amicizie = [(Nome,Amici)]
+
+filtra :: Amicizie -> [Nome]
+filtra amicizie = [ nome | (nome,amici) <- amicizie, (length amici) > 3, elem nome amici ]
+
+omonimo :: Nome -> Amici -> Bool
+omonimo nome [] = False
+omonimo nome (testa:coda) = testa == nome || (omonimo nome coda)
+
+--- prolog
+
+fotografia(A1, A2, A3, A4, A5) :-
+  Amici = [amico(A1,1), amico(A2,2), amico(A3,3), amico(A4,4), amico(A5,5)],
+  member(Amici,amico(marta,Marta)), Marta \= 3,
+  member(Amici,amico(matteo,Matteo)), Matteo \= 3,
+  member(Amici,amico(giovanni,Giovanni)), Giovanni \= 1, Giovanni \= 5,
+  Giovanni is Marta+1, Giovanni is Matteo-1,
+  member(Amici,amico(maria,Maria)), Maria < Giovanni,
+  member(Amici,amico(linda,Linda)), Linda is Matteo+1.

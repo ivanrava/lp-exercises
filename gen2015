@@ -1,0 +1,24 @@
+--- scheme
+
+(define (sommatriple lista)
+  (if (null? lista) ()
+    (if (null? (cdr lista)) (list (car lista))
+      (if (null? (cddr lista)) (list (+ (car lista) (cadr lista)))
+        (cons (+ (car lista) (cadr lista) (caddr  lista)) (sommatriple (cdddr lista)))
+      )
+    )
+  )
+)
+
+--- haskell
+
+diversi :: Eq a => [a] -> Bool
+diversi [] = True
+diversi (testa:coda) = not(elem testa coda) && diversi coda
+
+--- prolog
+
+sommatriple([],[]).
+sommatriple([A],[A]).
+sommatriple([A,B],[R]) :- R is A+B.
+sommatriple([A,B,C|T],[R|T2]) :- R is A+B+C, sommatriple(T,T2).
